@@ -41,7 +41,7 @@ function Wall(scene,eventBus) {
 	const mesh = new THREE.Mesh();
 
 	mesh.position.set(0, 0, -20);
-
+  
   //adding three walls for the wall 
   const wallSubjects = [
     new WallSide(mesh,eventBus,"left"),

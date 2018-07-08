@@ -1,5 +1,7 @@
 function Ball(scene,eventBus) {
-	const AccelarationDown = 1;
+	
+	const AccelarationDown = 0.1;
+	const AccelarationX = 0.1
 	const pi = 3.14159;
 	const radius = 0.2;
 	const widthSegments = 8;
@@ -17,7 +19,8 @@ function Ball(scene,eventBus) {
 
   eventBus.subscribe("collisionDetect",function(args){
     if (isBallIntersectingObject(args[0])){
-			console.log(args[1]);
+			//console.log(args[0].linearVelocity.x+'fuck');
+			console.log('from colision detection'+args[1]);
       collide(args);
     }
   });
@@ -27,7 +30,7 @@ function Ball(scene,eventBus) {
     linearVelocity.y=force*THREE.Math.randInt(-1,1)*Math.sin(angle);
 		linearVelocity.x=force*THREE.Math.randInt(-1,1)*Math.cos(angle);
 		if(linearVelocity.y == 0){
-				linearVelocity.y = 0.05;
+				linearVelocity.y = 0.05;  
 		}
 		if(linearVelocity.x == 0){
 			linearVelocity.x = 0.05;
@@ -35,7 +38,7 @@ function Ball(scene,eventBus) {
   });
 
   eventBus.subscribe("isBallLost",function(handle){
-    if(handle.position.y>=ball.position.y){
+    if(handle.position.y >= ball.position.y){
       eventBus.post("ballLost");
     }
   });
@@ -60,12 +63,14 @@ function Ball(scene,eventBus) {
 		var ball_Xmax=ball.position.x+radius;
 		var ball_Xmin=ball.position.x-radius;
 
-		var object_Ymax=object.position.y+(object.geometry.parameters.height)/2;//+object.geometry.parameters.depth;
-		var object_Ymin=object.position.y-(object.geometry.parameters.height)/2;//+object.geometry.parameters.depth;
-		var object_Xmax=object.position.x+(object.geometry.parameters.width)/2;//+object.geometry.parameters.depth;
-		var object_Xmin=object.position.x-(object.geometry.parameters.width)/2;//+object.geometry.parameters.depth;
+		var object_Ymax=object.position.y+(object.geometry.parameters.height)/2; //+object.geometry.parameters.depth;
+		var object_Ymin=object.position.y-(object.geometry.parameters.height)/2; //+object.geometry.parameters.depth;
+		var object_Xmax=object.position.x+(object.geometry.parameters.width)/2; //+object.geometry.parameters.depth;
+		var object_Xmin=object.position.x-(object.geometry.parameters.width)/2; //+object.geometry.parameters.depth;
 
-    if( ball_Xmin<=object_Xmax && ball_Xmin>=object_Xmin){
+		//var vle = object.linearVelocity.x;
+		//console.log('dfwqdwq'+vle); 	
+	  if( ball_Xmin<=object_Xmax && ball_Xmin>=object_Xmin){
       if(ball_Ymin<=object_Ymax && ball_Ymin>=object_Ymin){
 				console.log("1 1");
         return true;
@@ -92,7 +97,12 @@ function Ball(scene,eventBus) {
 		if(type=="wall left"||type=="wall right") {
 			linearVelocity.y*=1;
 			linearVelocity.x*=-1;
-		} else {
+		// } else if(type="handle"){
+		// 	console.log('handle'+handle.linearVelocity.x);
+		// 	console.log('handle'+handle.linearVelocity.y)
+		// 	linearVelocity.x
+		} 
+		else {
 			linearVelocity.y*=-1;
 			linearVelocity.x*=1;
 			if (type=="brick") {

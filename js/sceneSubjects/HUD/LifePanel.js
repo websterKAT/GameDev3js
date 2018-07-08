@@ -15,6 +15,7 @@ function Life(scene,eventBus,life) {
       scene.remove(mesh);
     }
   });
+  
 	eventBus.subscribe("removeAllLives",function(lives) {
       scene.remove(mesh);
   });

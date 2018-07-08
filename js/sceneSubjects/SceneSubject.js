@@ -8,9 +8,9 @@ function SceneSubject(scene) {
 	scene.add(mesh);
 	
 	this.update = function(time) {
-		//const scale = Math.sin(time)+2;
+		const scale = Math.sin(time)+2;
 		mesh.rotation.x += 0.01;
 		mesh.rotation.y += 0.01;
-		//mesh.scale.set(scale, scale, scale);
+		mesh.scale.set(scale, scale, scale);
 	}
 }

@@ -8,8 +8,8 @@ function Brick(scene,eventBus,brick) {
 	mesh.position.set(-6+(brick*3)%13,1+(brick*3)%5,0);
 	scene.add(mesh);
 
-	eventBus.subscribe("damaged",function(damagedBrick){
-		if(brick==damagedBrick){
+	eventBus.subscribe("damaged",function(damagedBrick) {
+		if(brick==damagedBrick) {
 			scene.remove(mesh);
 			eventBus.post("removeBrick",brick);
 			eventBus.post("brickDamaged");
@@ -30,6 +30,9 @@ function Bricks(scene,eventBus) {
 	const mesh = new THREE.Mesh();
 
 	mesh.position.set(0, 0, -20);
+	// mesh.linearVelovity.x = 0;
+	// mesh.linearVelovity.x = 0;
+
 
 	scene.add(mesh);
 
