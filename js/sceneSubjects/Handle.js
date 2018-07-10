@@ -10,9 +10,24 @@ function Handle(scene,eventBus) {
 	// mesh.linearVelocity.y=0;
 	scene.add(mesh);
 	this.update = function(time) {
+		eventBus.post("playerAngle",mesh)
 		eventBus.post("keyboard",mesh);
 		eventBus.post("collisionDetect",[mesh,"handle"]);
 		eventBus.post("isBallLost",mesh);
 	}
+
+	eventBus.subscribe("handleLong", function (lives) {
+		mesh.scale.x=2
+	})
+	eventBus.subscribe("handleShort", function (lives) {
+		mesh.scale.x=0.5
+
+	})
+	eventBus.subscribe("handleNormal", function (lives) {
+		mesh.scale.x=1
+
+	})
+
+
 
 }

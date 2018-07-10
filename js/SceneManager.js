@@ -47,7 +47,8 @@ function SceneManager(canvas) {
             new GeneralLights(scene),
             new Handle(scene,eventBus),
             new Ball(scene,eventBus),
-            new Bricks(scene,eventBus),
+            new PowerUps(scene,eventBus),
+            //new Bricks(scene,eventBus),
             new LifePanel(scene,eventBus),
             new Wall(scene,eventBus)
         ];
