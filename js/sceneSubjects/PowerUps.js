@@ -25,13 +25,14 @@ function PowerUps(scene, eventBus, brick) {
 		return RandomPowerUp
 	}
 
-	const RandomPowerUpType = generateRandomPowerUpType()
+	var  RandomPowerUpType = generateRandomPowerUpType()
 	var RandomPowerUp = generateRandomPowerUp()
 
 	this.update = function (time) {
-		eventBus.post("collisionDetect", [mesh, "P", generateRandomPowerUp(), RandomPowerUp]);
+		eventBus.post("collisionDetect", [mesh, "P", RandomPowerUpType, RandomPowerUp]);
 	}
 	eventBus.subscribe("powerUpCollected", function (lives) {
+		RandomPowerUpType=generateRandomPowerUpType()
 		RandomPowerUp=generateRandomPowerUp()
 		mesh.position.x=makeRandomPosition()
 		mesh.position.y=makeRandomPosition()

@@ -10,12 +10,18 @@ function Ball(scene, eventBus) {
 	const maxBounceAngle = pi / 3
 	var linearVelocity = new THREE.Vector3(0, 0, 0);
 	var angle = pi / 3;
-	var force = 0.1;  //speed of the ball 
+	var force = 0.15;  //speed of the ball 
 	const speedMultiplier = 1.2
 	var count = 0;
 	var duration = 4;
-	var isPoweredUp = false
-	var scale = 1
+	var isPoweredUp = false;
+	var scale = 1;
+	var isBlinking = false;
+	var g_x = 0;
+	var g_y = 0;
+	const g = 0.002;
+	var clock = new THREE.Clock();
+	var timeElapsed = 0
 
 
 
@@ -37,7 +43,6 @@ function Ball(scene, eventBus) {
 
 
 	eventBus.subscribe("startGame", function (object) {
-		console.log(Math);
 		linearVelocity.y = force * THREE.Math.randInt(-1, 1) * Math.sin(angle);
 		linearVelocity.x = force * THREE.Math.randInt(-1, 1) * Math.cos(angle);
 		if (linearVelocity.y == 0) {
@@ -64,6 +69,22 @@ function Ball(scene, eventBus) {
 	this.update = function (time) {
 		ball.position.y += linearVelocity.y;
 		ball.position.x += linearVelocity.x;
+		linearVelocity.x = linearVelocity.x + g_x;
+		//linearVelocity.y=linearVelocity.y+g_y;
+
+		if (isBlinking) {
+			timeElapsed += clock.getDelta()
+			if (timeElapsed < 0.5) {
+				ball.position.z = -20;
+			}
+			else if (timeElapsed > 0.5 && timeElapsed < 1) {
+				ball.position.z = 20;
+			}
+			else {
+				timeElapsed = 0
+			}
+
+		}
 	}
 
 
@@ -78,10 +99,10 @@ function Ball(scene, eventBus) {
 			localScale = scale
 		}
 		const object = Obj[0]
-		var object_Ymax = object.position.y + (object.geometry.parameters.height) * localScale/ 2; //+object.geometry.parameters.depth;
-		var object_Ymin = object.position.y - (object.geometry.parameters.height) * localScale/ 2; //+object.geometry.parameters.depth;
-		var object_Xmax = object.position.x + (object.geometry.parameters.width) * localScale/ 2; //+object.geometry.parameters.depth;
-		var object_Xmin = object.position.x - (object.geometry.parameters.width) * localScale/ 2; //+object.geometry.parameters.depth;
+		var object_Ymax = object.position.y + (object.geometry.parameters.height) * localScale / 2; //+object.geometry.parameters.depth;
+		var object_Ymin = object.position.y - (object.geometry.parameters.height) * localScale / 2; //+object.geometry.parameters.depth;
+		var object_Xmax = object.position.x + (object.geometry.parameters.width) * localScale / 2; //+object.geometry.parameters.depth;
+		var object_Xmin = object.position.x - (object.geometry.parameters.width) * localScale / 2; //+object.geometry.parameters.depth;
 
 		//var vle = object.linearVelocity.x;
 		//console.log('dfwqdwq'+vle); 	
@@ -106,6 +127,18 @@ function Ball(scene, eventBus) {
 		}
 		return false;
 	}
+	function clearEffects() {
+		force = 0.1
+		count = 0
+		g_x = 0
+		g_y = 0
+		isBlinking = false
+		ball.position.z = -20;
+		eventBus.post("handleNormal", function (handle) {
+			console.log("handleNormal");
+		});
+		scale = 1
+	}
 
 
 
@@ -113,6 +146,7 @@ function Ball(scene, eventBus) {
 		var type = args[1];
 		console.log("type : " + type)
 		if (type == "P") {
+			clearEffects()
 			console.log("power Up Collided")
 			if (args[2] == 0) {
 				// console.log("power regarding ball")
@@ -120,17 +154,17 @@ function Ball(scene, eventBus) {
 					// console.log("fast")
 					count = 0
 					duration = 5
-					force = 0.2
+					force = force*2
 				}
-				if (args[3] == 1) {
+				else if (args[3] == 1) {
 					// console.log("slow")
 					count = 0
-					duration = 2
-					force = 0.05
+					duration = 3
+					force = force*0.5
 				}
 			}
 
-			if (args[2] == 1) {
+			else if (args[2] == 1) {
 				// console.log("power regarding handle")
 				if (args[3] == 0) {
 					count = 0
@@ -140,7 +174,7 @@ function Ball(scene, eventBus) {
 					});
 					scale = 0.5
 				}
-				if (args[3] == 1) {
+				else if (args[3] == 1) {
 					count = 0
 					duration = 5
 					eventBus.post("handleLong", function (handle) {
@@ -148,6 +182,24 @@ function Ball(scene, eventBus) {
 					});
 					scale = 2
 
+				}
+
+			}
+
+			else if (args[2] == 2) {
+				// console.log("environment")
+				if (args[3] == 0) {
+					console.log("wind")
+					count = 0
+					duration = 5
+					var randomAngle = Math.random() * 2 * pi
+					g_x = g * Math.cos(randomAngle)
+					//g_y=g*0.5*Math.sin(randomAngle)
+				}
+				else if (args[3] == 1) {
+					count = 0
+					isBlinking = true
+					duration = 5
 				}
 
 			}
@@ -166,18 +218,13 @@ function Ball(scene, eventBus) {
 			if (isPoweredUp) {
 				count++
 				if (count >= duration) {
-					console.log("powerUp Downed")
-					force = 0.1
-					count = 0
 					isPoweredUp = false
-					eventBus.post("handleNormal", function (handle) {
-						console.log("handleNormal");
-					});
-					scale = 1
+					console.log("powerUp Downed")
+					clearEffects()
 				}
 			}
 
-			const bounceArea = (handle.position.x - ball.position.x)/(handle.geometry.parameters.width*scale/2)
+			const bounceArea = (handle.position.x - ball.position.x) / (handle.geometry.parameters.width * scale / 2)
 			const bounceAngle = bounceArea * maxBounceAngle
 			const extraForce = Math.abs(bounceArea) * maxSpeedChange
 			linearVelocity.y = (force) * Math.exp(extraForce) * Math.cos(bounceAngle);

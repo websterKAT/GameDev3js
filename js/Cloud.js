@@ -23,7 +23,11 @@ THREE.Cloud = function ( color ) {
     cloudMaterial.uniforms.scale.value = new THREE.Vector3( 1, 1, 1 );
     cloudMaterial.uniforms.seed.value = Math.random() * 19.19;
 
-	THREE.Mesh.call( this, new THREE.BoxGeometry( 1, 1, 1 ), cloudMaterial );
+    THREE.Mesh.call( this, new THREE.BoxGeometry( 1, 1, 1 ), cloudMaterial );
+    
+    this.update = function (time) {
+		eventBus.post("collisionDetect", [mesh, "cloud", 0, 0]);
+	}
 
 };
 
