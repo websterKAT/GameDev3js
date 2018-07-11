@@ -46,6 +46,7 @@ function SceneManager(canvas) {
         const sceneSubjects = [
             new GeneralLights(scene),
             new Handle(scene,eventBus),
+            new Handle2(scene,eventBus),
             new Ball(scene,eventBus),
             new PowerUps(scene,eventBus),
             //new CloudMover(scene,eventBus),

@@ -10,7 +10,7 @@ function Ball(scene, eventBus) {
 	const maxBounceAngle = pi / 3
 	var linearVelocity = new THREE.Vector3(0, 0, 0);
 	var angle = pi / 3;
-	var force = 0.15;  //speed of the ball 
+	var force = 0.2;  //speed of the ball 
 	const speedMultiplier = 1.2
 	var count = 0;
 	var duration = 4;
@@ -23,14 +23,16 @@ function Ball(scene, eventBus) {
 	var clock = new THREE.Clock();
 	var timeElapsed = 0
 
-	var geometry = new THREE.CircleBufferGeometry( 0.5, 10 );
-	var material = new THREE.MeshBasicMaterial( { color: 0xff4081 } );
-	var powerupIcon = new THREE.Mesh( geometry, material );
+	var geometry = new THREE.CircleBufferGeometry(0.5, 10);
+	var material = new THREE.MeshBasicMaterial({ color: 0xff4081 });
+	var powerupIcon = new THREE.Mesh(geometry, material);
 
 	ball.position.set(0, 0, -20);
 	scene.add(ball);
 
 	var handle = "";
+	var handle2 = "";
+
 	eventBus.subscribe("playerAngle", function (args) {
 		handle = args
 	});
@@ -57,11 +59,25 @@ function Ball(scene, eventBus) {
 	});
 
 	eventBus.subscribe("isBallLost", function (handle) {
-		if (handle.position.y >= ball.position.y) {
-			soundController.playBallWentOut();
-			eventBus.post("ballLost");
-			document.getElementById("powerimage").src = "images/calm.gif";
-			clearEffects();
+
+		handleType = handle[1]
+		handle = handle[0]
+		if (handleType == 1) {
+			if (handle.position.y >= ball.position.y) {
+				soundController.playBallWentOut();
+				eventBus.post("ballLost");
+        document.getElementById("powerimage").src = "images/calm.gif";
+        clearEffects();
+			}
+		}
+		if (handleType == 2) {
+			if (handle.position.y <= ball.position.y) {
+				soundController.playBallWentOut();
+				eventBus.post("ballLost");
+        document.getElementById("powerimage").src = "images/calm.gif";
+        clearEffects();
+			}
+
 		}
 	});
 
@@ -104,7 +120,7 @@ function Ball(scene, eventBus) {
 		var ball_Xmax = ball.position.x + radius;
 		var ball_Xmin = ball.position.x - radius;
 		var localScale = 1
-		if (Obj[1] == "handle") {
+		if (Obj[1] == "handle" || Obj[1] == "handle2") {
 			localScale = scale
 		}
 		const object = Obj[0]
@@ -117,20 +133,20 @@ function Ball(scene, eventBus) {
 		//console.log('dfwqdwq'+vle); 	
 		if (ball_Xmin <= object_Xmax && ball_Xmin >= object_Xmin) {
 			if (ball_Ymin <= object_Ymax && ball_Ymin >= object_Ymin) {
-				// console.log("1 1");
+				console.log("1 1");
 				return true;
 			} else if (ball_Ymax >= object_Ymin && ball_Ymax <= object_Ymax) {
-				// console.log("1 2");
+				console.log("1 2");
 				// console.log(ball_Ymax);
 				// console.log(object_Ymin);
 				return true;
 			}
 		} else if (ball_Xmax >= object_Xmin && ball_Xmin <= object_Xmax) {
 			if (ball_Ymin <= object_Ymax && ball_Ymin >= object_Ymin) {
-				// console.log("2 1");
+				console.log("2 1");
 				return true;
 			} else if (ball_Ymax >= object_Ymin && ball_Ymax <= object_Ymax) {
-				// console.log("2 2");
+				console.log("2 2");
 				return true;
 			}
 		}
@@ -164,20 +180,24 @@ function Ball(scene, eventBus) {
 			soundController.playStartPowerups();
 			if (args[2] == 0) {
 				if (args[3] == 0) {
+
 					count = 0;
 					duration = 5;
 					force = force*2;
 					document.getElementById("powerimage").src = "images/fastball.gif";
 					
+
 				}
 				else if (args[3] == 1) {
 				//	$("#currentpowerup").text("Ball Slow ")
 					// console.log("slow")
+
 					count = 0;
 					duration = 3;
 					force = force*0.5;
 					document.getElementById("powerimage").src= "images/slowball.gif";
 					
+
 				}
 			}
 
@@ -263,9 +283,31 @@ function Ball(scene, eventBus) {
 			linearVelocity.y = (force) * Math.exp(extraForce) * Math.cos(bounceAngle);
 			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle);
 		}
+
+		else if (type == "handle2") {
+			powerupIcon.position.set(8, -6.5, -20);
+			scene.add(powerupIcon);
+			//scene.add(clock);	
+			if (isPoweredUp) {
+				count++
+				if (count >= duration) {
+					isPoweredUp = false
+					console.log("powerUp Downed")
+					clearEffects()
+				}
+			}
+
+			const bounceArea = (handle.position.x - ball.position.x) / (handle.geometry.parameters.width * scale / 2)
+			const bounceAngle = bounceArea * maxBounceAngle
+			const extraForce = Math.abs(bounceArea) * maxSpeedChange
+			linearVelocity.y = -(force) * Math.exp(extraForce) * Math.cos(bounceAngle);
+			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle);
+		}
+
 		else {
 			linearVelocity.y *= -1;
 			linearVelocity.x *= 1;
 		}
+
 	}
 }
