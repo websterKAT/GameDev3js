@@ -25,16 +25,12 @@ function PlayerController(eventBus, clock) {
   var c = new THREE.Clock();
 
 
-  // var epdat = this.update = function (time) {
-  //   console.log('this is calling');
-  //   moveSpeed += 0.0001;
-  //   //console.log(time.mi);
-  // }
+ 
 
 
   this.keyPressed = function (player) {
 
-    //updateFrame();
+   
     if (keyboard.pressed(leftKey)) {
       moveLeft(player);
     } 

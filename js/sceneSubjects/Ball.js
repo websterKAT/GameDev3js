@@ -23,7 +23,9 @@ function Ball(scene, eventBus) {
 	var clock = new THREE.Clock();
 	var timeElapsed = 0
 
-
+	var geometry = new THREE.CircleBufferGeometry( 0.5, 10 );
+	var material = new THREE.MeshBasicMaterial( { color: 0xff4081 } );
+	var powerupIcon = new THREE.Mesh( geometry, material );
 
 	ball.position.set(0, 0, -20);
 	scene.add(ball);
@@ -43,6 +45,7 @@ function Ball(scene, eventBus) {
 
 
 	eventBus.subscribe("startGame", function (object) {
+		//soundController.playMenuAudio();	
 		linearVelocity.y = force * THREE.Math.randInt(-1, 1) * Math.sin(angle);
 		linearVelocity.x = force * THREE.Math.randInt(-1, 1) * Math.cos(angle);
 		if (linearVelocity.y == 0) {
@@ -55,6 +58,7 @@ function Ball(scene, eventBus) {
 
 	eventBus.subscribe("isBallLost", function (handle) {
 		if (handle.position.y >= ball.position.y) {
+			soundController.playBallWentOut();
 			eventBus.post("ballLost");
 		}
 	});
@@ -143,11 +147,15 @@ function Ball(scene, eventBus) {
 
 
 	function collide(args) {
+		soundController.playBallHitTheHadle();
 		var type = args[1];
 		console.log("type : " + type)
 		if (type == "P") {
+			// powerupIcon.position.set(0, 0, -20);
+			// scene.add(powerupIcon);
 			clearEffects()
 			console.log("power Up Collided")
+			soundController.playStartPowerups();
 			if (args[2] == 0) {
 				// console.log("power regarding ball")
 				if (args[3] == 0) {
@@ -215,6 +223,9 @@ function Ball(scene, eventBus) {
 
 		}
 		else if (type == "handle") {
+			powerupIcon.position.set(8, -6.5, -20);
+			scene.add(powerupIcon);
+			//scene.add(clock);	
 			if (isPoweredUp) {
 				count++
 				if (count >= duration) {

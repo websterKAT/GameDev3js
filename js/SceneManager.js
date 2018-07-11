@@ -82,4 +82,9 @@ function SceneManager(canvas) {
 
         renderer.setSize(width, height);
     }
+
+    this.getCamera = function(){
+        return camera;
+      }
+  
 }

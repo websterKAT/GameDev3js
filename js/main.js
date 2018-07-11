@@ -1,8 +1,11 @@
 const canvas = document.getElementById("canvas");
 
+
+
 const eventBus = new EventBus();
 
 const sceneManager = new SceneManager(canvas,eventBus);
+const soundController = new SoundController();
 
 bindEventListeners();
 render();
@@ -30,9 +33,10 @@ function render() {
 eventBus.subscribe("lost",function(){
 	$("#messageModalHeader").text("You Lost!!");
 	$("#messageModal").modal();
+	
 });
 
-eventBus.subscribe("win",function(score){
+eventBus.subscribe("win",function(score) {
 	$("#messageModalHeader").text("You Win !! with "+score+" score");
 	$("#messageModal").modal();
 });
