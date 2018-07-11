@@ -1,16 +1,19 @@
 .container{
   height: 500px !important;
+ 
   
 }
 #game{
   height: 600px !important;
-  
+
 }
-#score{
-  margin-top: -40px;
+
+#panel{
+  margin-top:-50px;
   margin-left: 200px;
   color: #ffff00;
-  position: absolute;
+  
+  height: 100px;
 }
 #menubar{
   background-color: #000000;

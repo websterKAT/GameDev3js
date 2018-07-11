@@ -12,8 +12,8 @@ function PlayerController(eventBus, clock) {
   var timeBonus = 1000 * bricks;
   var leftKey = "left";
   var rightKey = "right";
-  var limit_Xmin = -13.6 + 1.4;
-  var limit_Xmax = 13.6 - 1.4;
+  var limit_Xmin = -12.5 + 1.4;
+  var limit_Xmax = 12.5 - 1.4;
 
   this.getLives = function () {
     return lives;
