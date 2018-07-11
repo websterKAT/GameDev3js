@@ -60,6 +60,8 @@ function Ball(scene, eventBus) {
 		if (handle.position.y >= ball.position.y) {
 			soundController.playBallWentOut();
 			eventBus.post("ballLost");
+			document.getElementById("powerimage").src = "images/calm.gif";
+			clearEffects();
 		}
 	});
 
@@ -68,6 +70,9 @@ function Ball(scene, eventBus) {
 		ball.position.x = 0;
 		linearVelocity.y = 0;
 		linearVelocity.x = 0;
+		scene.remove(powerupIcon);
+		document.getElementById("powerimage").src = "images/calm.gif";
+		clearEffects();
 	});
 
 	this.update = function (time) {
@@ -132,6 +137,9 @@ function Ball(scene, eventBus) {
 		return false;
 	}
 	function clearEffects() {
+		document.getElementById("powerimage").src = "images/calm.gif";
+		$("#currentpowerup").text("Normal");
+		//scene.remove(powerupIcon);
 		force = 0.1
 		count = 0
 		g_x = 0
@@ -151,28 +159,30 @@ function Ball(scene, eventBus) {
 		var type = args[1];
 		console.log("type : " + type)
 		if (type == "P") {
-			// powerupIcon.position.set(0, 0, -20);
-			// scene.add(powerupIcon);
 			clearEffects()
 			console.log("power Up Collided")
 			soundController.playStartPowerups();
 			if (args[2] == 0) {
-				// console.log("power regarding ball")
 				if (args[3] == 0) {
-					// console.log("fast")
-					count = 0
-					duration = 5
-					force = force*2
+					count = 0;
+					duration = 5;
+					force = force*2;
+					document.getElementById("powerimage").src = "images/fastball.gif";
+					
 				}
 				else if (args[3] == 1) {
+				//	$("#currentpowerup").text("Ball Slow ")
 					// console.log("slow")
-					count = 0
-					duration = 3
-					force = force*0.5
+					count = 0;
+					duration = 3;
+					force = force*0.5;
+					document.getElementById("powerimage").src= "images/slowball.gif";
+					
 				}
 			}
 
 			else if (args[2] == 1) {
+				
 				// console.log("power regarding handle")
 				if (args[3] == 0) {
 					count = 0
@@ -180,21 +190,28 @@ function Ball(scene, eventBus) {
 					eventBus.post("handleShort", function (handle) {
 						console.log("handleShort");
 					});
-					scale = 0.5
+					scale = 0.5;
+					document.getElementById("powerimage").src = "images/shorthandle.gif";
+					
 				}
 				else if (args[3] == 1) {
+				
 					count = 0
 					duration = 5
 					eventBus.post("handleLong", function (handle) {
 						console.log("handleLong");
 					});
-					scale = 2
+					scale = 2;
+				//	$("#currentpowerup").text("Haddle Long")
+					document.getElementById("powerimage").src = "images/longhandle.gif";
+					
 
 				}
 
 			}
 
 			else if (args[2] == 2) {
+			
 				// console.log("environment")
 				if (args[3] == 0) {
 					console.log("wind")
@@ -203,11 +220,17 @@ function Ball(scene, eventBus) {
 					var randomAngle = Math.random() * 2 * pi
 					g_x = g * Math.cos(randomAngle)
 					//g_y=g*0.5*Math.sin(randomAngle)
+					//$("#currentpowerup").text("Wind")
+					document.getElementById("powerimage").src = "images/wind.gif";
+					
 				}
 				else if (args[3] == 1) {
 					count = 0
 					isBlinking = true
 					duration = 5
+					//$("#currentpowerup").text("Blinking")
+					document.getElementById("powerimage").src = "images/blind.gif";
+					
 				}
 
 			}
@@ -223,8 +246,7 @@ function Ball(scene, eventBus) {
 
 		}
 		else if (type == "handle") {
-			powerupIcon.position.set(8, -6.5, -20);
-			scene.add(powerupIcon);
+			
 			//scene.add(clock);	
 			if (isPoweredUp) {
 				count++

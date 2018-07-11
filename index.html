@@ -17,11 +17,10 @@
 				
 				<canvas id="canvas"> </canvas>
 				<div class="row" id="panel">
-				<div class="col-md-3" id="menubar"> <button id="btnMenu"  class="btn btn-primary" type="button" name="button"> GAME SETTINGS </button>	</div>				
-				<div class="col-md-4" id="score">Score:0 </div>
-				<div class="col-md-5" id="CurrentPowerUp">examplePowerUp</div>
+				<div class="col-md-5"><img id="powerimage" src="images/calm.gif" width="150px" height="100px"/></div>
+				<div class="col-md-4" id="score"><b>SCORE:0 </b></div>
 				
-				</div>	
+			</div>	
 			</div>
 
 			<!-- showing message after winning  -->
@@ -33,11 +32,13 @@
 			        <h4 class="modal-title" id="messageModalHeader"></h4>
 			      </div>
 			      <div class="modal-body">
-
+								Your Score is: 50
+							
+								
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
-			        <button type="button" class="btn btn-primary">PLAY AGAIN </button>
+			        <button type="button" class="btn btn-primary" onClick="document.location.reload(true)"> 	PLAY AGAIN </button>
 			      </div>
 			    </div>
 			  </div>
@@ -59,53 +60,11 @@
 							</div>
 
 							<!-- Tab content -->
-							<div id="KeyboardControls" class="tabcontent">
-								<h3>Keyboard Controllers</h3>
-								<form >
-									<div class="form-group">
-									  <label for="left">Left Key</label>
-									  <input type="text" class="form-control" placeholder="Type one character" id="left">
-									  <p class="help-block">Default Value is "left arrow key". Please type only one character</p>
-									</div>
-									<div class="form-group">
-									  <label for="right">Right Key</label>
-									  <input type="text" class="form-control" id="right" placeholder="Type one character">
-									  <p class="help-block">Default value is "right arrow key". Please type only one character</p>
-									</div>
-
-									<button type="button" id="btnKeyboardControlsSubmit">Submit</button>
-								</form>
-								<div id="status1" class="alert">
-								</div>
-							</div>
+						
 								<!--game properties window -->
-							<div id="GameProperties" class="tabcontent">
-								<h3>Game Properties</h3>
-								<form >
-									<div class="form-group">
-									  <label for="lives">Number of Balls</label>
-									  <input type="text" class="form-control" placeholder="1-10 Integer value" id="lives" value="3">
-									  <p class="help-block">Number of chances you will have, when you miss a ball. Default is 3.</p>
-									</div>
-									<div class="form-group">
-										<label for="bricks">Number of Bricks</label>
-									  <input type="text" class="form-control" id="bricks" placeholder="1-10 Integer Value" value="2">
-									  <p class="help-block">Number of bricks you want to break, default is 2</p>
-									</div>
-									<div class="form-group">
-										<label for="speedHandle">Player Movement Speed</label>
-									  <input type="text" class="form-control" id="speedHandle" placeholder="Decimal Value" value="1">
-									  <p class="help-block">Speed of the handle</p>
-									</div>
-								</form>
-								<button type="button" id="btnGamePropertiesSubmit">Submit</button>
-								<div id="status2" class="alert">
-								</div>
-							</div>
+							
 								<!--Properties of Ball -->
-							<div id="BallProperties" class="tabcontent">
-
-							</div>
+					
 
 			      </div>
 

@@ -3,17 +3,25 @@
  
   
 }
+
+#score{
+  color: rgb(153, 155, 20)
+}
 #game{
   height: 600px !important;
 
 }
-
+#powerimage {
+  margin-left: 100px;
+  border-radius: 5px;
+  border: 5px;
+  border-color: red;
+}
 #panel{
-  margin-top:-50px;
-  margin-left: 200px;
-  color: #ffff00;
+  margin-top:-80px;
   
-  height: 100px;
+  height:100px;
+  background-color: rgb(24, 84, 102);
 }
 #menubar{
   background-color: #000000;
