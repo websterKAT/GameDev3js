@@ -19,6 +19,7 @@ function Handle2(scene,eventBus) {
 	eventBus.subscribe("handleLong", function (lives) {
 		mesh.scale.x=2
 	})
+	
 	eventBus.subscribe("handleShort", function (lives) {
 		mesh.scale.x=0.5
 

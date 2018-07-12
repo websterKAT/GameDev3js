@@ -2,6 +2,7 @@ function SceneManager(canvas) {
 
     const clock = new THREE.Clock();
     const player1 = new PlayerController(eventBus,clock);
+    const player2 = new Player2Controller(eventBus,clock);
 
     const screenDimensions = {
         width: canvas.width,
@@ -54,14 +55,19 @@ function SceneManager(canvas) {
             new LifePanel(scene,eventBus),
             new Wall(scene,eventBus)
         ];
-        createPlayer();
+        createPlayer1();
+        createPlayer2();
         return sceneSubjects;
     }
 
-    function createPlayer() {
+    function createPlayer1() {
       eventBus.subscribe("keyboard",player1.keyPressed);
-      eventBus.post("lives",player1.getLives());
+      ///eventBus.post("lives",player1.getLives());
       eventBus.post("bricks",player1.getBricks());
+    }
+
+    function createPlayer2() {
+        eventBus.subscribe("keyboard",player2.keyPressed);
     }
 
     this.update = function() {

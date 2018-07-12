@@ -17,8 +17,14 @@
 				
 				<canvas id="canvas"> </canvas>
 				<div class="row" id="panel">
-				<div class="col-md-5"><img id="powerimage" src="images/calm.gif" width="150px" height="100px"/></div>
-				<div class="col-md-4" id="score"><b>SCORE:0 </b></div>
+				<div class="col-md-6" >
+					<img id="powerimage" class="col-md-4"src="images/calm.gif" width="150px" height="100px"/>
+					<p id="powername">calm mode </p>	
+				</div> 
+				
+				<div class="col-md-4" id="score"><b>
+					<p id="player1">PLAYER UP:0</p> 
+					<p id="player2">PLAYER DOWN:0</p> </b></div>
 				
 			</div>	
 			</div>
@@ -44,38 +50,7 @@
 			  </div>
 			</div>
      <!-- main menu button -->
-			<div class="modal fade" id="modalMenu" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h4 class="modal-title">Main Menu</h4>
-			      </div>
-			      <div class="modal-body">
-							<!-- Tab links -->
-							<div class="tab">
-								<button class="tablinks" onclick="openTabs(event, 'KeyboardControls')">KEYBOARD CONTROLS </button>
-								<button class="tablinks" onclick="openTabs(event, 'GameProperties')">GAME PROPERTIES </button>
-								<button class="tablinks" onclick="openTabs(event, 'BallProperties')">BALL PROPERTIES </button>
-							</div>
-
-							<!-- Tab content -->
-						
-								<!--game properties window -->
-							
-								<!--Properties of Ball -->
-					
-
-			      </div>
-
-
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" 	data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Return to Game</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+		
 
 		</div>
 
@@ -84,27 +59,6 @@
 				$("#modalMenu").modal();
 			});
 
-
-			function openTabs(evt, cityName) {
-			    // Declare all variables
-			    var i, tabcontent, tablinks;
-
-			    // Get all elements with class="tabcontent" and hide them
-			    tabcontent = document.getElementsByClassName("tabcontent");
-			    for (i = 0; i < tabcontent.length; i++) {
-			        tabcontent[i].style.display = "none";
-			    }
-
-			    // Get all elements with class="tablinks" and remove the class "active"
-			    tablinks = document.getElementsByClassName("tablinks");
-			    for (i = 0; i < tablinks.length; i++) {
-			        tablinks[i].className = tablinks[i].className.replace(" active", "");
-			    }
-
-			    // Show the current tab, and add an "active" class to the button that opened the tab
-			    document.getElementById(cityName).style.display = "block";
-			    evt.currentTarget.className += " active";
-			}
 
 		</script>
 		<!-- Libraries -->
@@ -132,6 +86,7 @@
 		<!-- Controllers -->
 		<script src="js/EventBus.js"></script>
 		<script src="js/PlayerController.js"></script>
+		<script src="js/Player2Controller.js"></script>
 		<script src="js/SceneManager.js"></script>
 		<script src="js/SoundController.js"></script>
 		<script src="js/main.js"></script>

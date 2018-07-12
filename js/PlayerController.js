@@ -10,8 +10,12 @@ function PlayerController(eventBus, clock) {
   var bricks = 2;
   var score = 1;
   var timeBonus = 1000 * bricks;
+  
   var leftKey = "left";
   var rightKey = "right";
+
+
+
   var limit_Xmin = -12.5 + 1.4;
   var limit_Xmax = 12.5 - 1.4;
 
@@ -29,8 +33,7 @@ function PlayerController(eventBus, clock) {
 
 
   this.keyPressed = function (player) {
-
-   
+    
     if (keyboard.pressed(leftKey)) {
       moveLeft(player);
     } 
@@ -60,11 +63,6 @@ function PlayerController(eventBus, clock) {
   });
 
   eventBus.subscribe("ballLost", function () {
-    lives--;
-    if (lives == 0) {
-      eventBus.post("lost");
-    }
-    eventBus.post("removeLife", lives);
     eventBus.post("ballReset");
   });
 

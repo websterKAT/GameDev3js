@@ -6,8 +6,6 @@ function Handle(scene,eventBus) {
 	const mesh = new THREE.Mesh(new THREE.BoxGeometry( width, height, depth ), new THREE.MeshBasicMaterial( { color: 0x00ff00 } ));
 	
 	mesh.position.set(0, -5, -20);
-	// mesh.linearVelocity.x=0;
-	// mesh.linearVelocity.y=0;
 	scene.add(mesh);
 	this.update = function(time) {
 		eventBus.post("playerAngle",mesh)

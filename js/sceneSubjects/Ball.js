@@ -22,7 +22,8 @@ function Ball(scene, eventBus) {
 	const g = 0.002;
 	var clock = new THREE.Clock();
 	var timeElapsed = 0
-
+	var score1 = 0;
+	var score2 = 0;
 	var geometry = new THREE.CircleBufferGeometry(0.5, 10);
 	var material = new THREE.MeshBasicMaterial({ color: 0xff4081 });
 	var powerupIcon = new THREE.Mesh(geometry, material);
@@ -56,6 +57,7 @@ function Ball(scene, eventBus) {
 		if (linearVelocity.x == 0) {
 			linearVelocity.x = 0.05;
 		}
+
 	});
 
 	eventBus.subscribe("isBallLost", function (handle) {
@@ -65,16 +67,21 @@ function Ball(scene, eventBus) {
 		if (handleType == 1) {
 			if (handle.position.y >= ball.position.y) {
 				soundController.playBallWentOut();
+				score2 += 1;
 				eventBus.post("ballLost");
-        document.getElementById("powerimage").src = "images/calm.gif";
-        clearEffects();
+		document.getElementById("powerimage").src = "images/calm.gif";
+		$("#player2").text("PLAYER DOWN: "+score2);
+		clearEffects();
+		
 			}
 		}
 		if (handleType == 2) {
 			if (handle.position.y <= ball.position.y) {
 				soundController.playBallWentOut();
+				score1 += 1;
 				eventBus.post("ballLost");
-        document.getElementById("powerimage").src = "images/calm.gif";
+		document.getElementById("powerimage").src = "images/calm.gif";
+		$("#player1").text("PLAYER UP: "+score1);
         clearEffects();
 			}
 
@@ -154,7 +161,7 @@ function Ball(scene, eventBus) {
 	}
 	function clearEffects() {
 		document.getElementById("powerimage").src = "images/calm.gif";
-		$("#currentpowerup").text("Normal");
+		$("#powername").text("calm mode");
 		//scene.remove(powerupIcon);
 		force = 0.1
 		count = 0
@@ -185,7 +192,7 @@ function Ball(scene, eventBus) {
 					duration = 5;
 					force = force*2;
 					document.getElementById("powerimage").src = "images/fastball.gif";
-					
+					$("#powername").text("FAST BALL");
 
 				}
 				else if (args[3] == 1) {
@@ -196,6 +203,7 @@ function Ball(scene, eventBus) {
 					duration = 3;
 					force = force*0.5;
 					document.getElementById("powerimage").src= "images/slowball.gif";
+					$("#powername").text("SLOW BALL");
 					
 
 				}
@@ -212,6 +220,7 @@ function Ball(scene, eventBus) {
 					});
 					scale = 0.5;
 					document.getElementById("powerimage").src = "images/shorthandle.gif";
+					$("#powername").text("SHORT HANDLE");
 					
 				}
 				else if (args[3] == 1) {
@@ -224,6 +233,7 @@ function Ball(scene, eventBus) {
 					scale = 2;
 				//	$("#currentpowerup").text("Haddle Long")
 					document.getElementById("powerimage").src = "images/longhandle.gif";
+					$("#powername").text("LONG HANDLE");
 					
 
 				}
@@ -242,7 +252,7 @@ function Ball(scene, eventBus) {
 					//g_y=g*0.5*Math.sin(randomAngle)
 					//$("#currentpowerup").text("Wind")
 					document.getElementById("powerimage").src = "images/wind.gif";
-					
+					$("#powername").text("WIND");
 				}
 				else if (args[3] == 1) {
 					count = 0
@@ -250,7 +260,7 @@ function Ball(scene, eventBus) {
 					duration = 5
 					//$("#currentpowerup").text("Blinking")
 					document.getElementById("powerimage").src = "images/blind.gif";
-					
+					$("#powername").text("BLINKING BALL");
 				}
 
 			}
@@ -285,8 +295,8 @@ function Ball(scene, eventBus) {
 		}
 
 		else if (type == "handle2") {
-			powerupIcon.position.set(8, -6.5, -20);
-			scene.add(powerupIcon);
+			// powerupIcon.position.set(8, -6.5, -20);
+			// scene.add(powerupIcon);
 			//scene.add(clock);	
 			if (isPoweredUp) {
 				count++

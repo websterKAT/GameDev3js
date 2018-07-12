@@ -4,6 +4,20 @@
   
 }
 
+/* #poweruppanel {
+  background: rgb(126, 128, 127);
+  width:250px;
+  margin-left: 50px;
+  height: 100px;
+} */
+
+#powername {
+  margin-top:10px;
+  font-family: monospace;
+  font-size: 25px;
+  color: red;
+}
+
 #score{
   color: rgb(153, 155, 20)
 }
@@ -12,7 +26,7 @@
 
 }
 #powerimage {
-  margin-left: 100px;
+  margin-left: 10px;
   border-radius: 5px;
   border: 5px;
   border-color: red;
