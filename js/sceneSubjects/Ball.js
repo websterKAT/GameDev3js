@@ -76,6 +76,8 @@ function Ball(scene, eventBus) {
 				score2 += 1;
 				eventBus.post("ballLost");
 				$("#player2").text("Player Up: " + score2);
+				$("#player1").text("Player Down: " + score1);
+
 				clearEffects();
 				$("#powername").text("press 'Enter' to rematch");
 				document.getElementById("powerimage").src = "images/nothing.gif";
@@ -90,6 +92,8 @@ function Ball(scene, eventBus) {
 				score1 += 1;
 				eventBus.post("ballLost");
 				$("#player1").text("Player Down: " + score1);
+				$("#player2").text("Player Up: " + score2);
+
 				clearEffects();
 				$("#powername").text("press 'Enter' to rematch");
 				document.getElementById("powerimage").src = "images/nothing.gif";
@@ -109,7 +113,6 @@ function Ball(scene, eventBus) {
 		linearVelocity.x = 0;
 		scene.remove(powerupIcon);
 		clearEffects();
-
 	});
 
 	this.update = function (time) {
