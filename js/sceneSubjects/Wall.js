@@ -8,15 +8,15 @@ function WallSide(scene,eventBus,side) {
   if (side=="left") {
     width = 0.4;
     height = 12.4;
-    x=-12.5;
+    x=-13.5;
   } else if (side=="right") {
     width = 0.4;
     height = 12.4;
-    x=12.5;
+    x=13.5;
   } else if (side=="top") {
     width = 25;
     height = 0.4;
-    y=7;
+    y=9;
   } else if(side=='bottom'){
     width=27.2;
     height=0.1;

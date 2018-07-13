@@ -67,7 +67,7 @@ function SceneManager(canvas) {
     }
 
     function createPlayer2() {
-        eventBus.subscribe("keyboard",player2.keyPressed);
+        eventBus.subscribe("keyboard2",player2.keyPressed);
     }
 
     this.update = function() {

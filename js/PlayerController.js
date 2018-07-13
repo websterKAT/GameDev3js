@@ -16,8 +16,8 @@ function PlayerController(eventBus, clock) {
 
 
 
-  var limit_Xmin = -12.5 + 1.4;
-  var limit_Xmax = 12.5 - 1.4;
+  var limit_Xmin = -13;
+  var limit_Xmax =13;
 
   this.getLives = function () {
     return lives;
