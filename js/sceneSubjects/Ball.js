@@ -27,8 +27,9 @@ function Ball(scene, eventBus) {
 	var geometry = new THREE.CircleBufferGeometry(0.5, 10);
 	var material = new THREE.MeshBasicMaterial({ color: 0xff4081 });
 	var powerupIcon = new THREE.Mesh(geometry, material);
-
-	ball.position.set(0, 0, -20);
+	var ballClock=new THREE.Clock();
+	ballClock.getDelta()
+	ball.position.set(0, 1, -20);
 	scene.add(ball);
 
 	var handle = "";
@@ -49,6 +50,8 @@ function Ball(scene, eventBus) {
 
 	eventBus.subscribe("startGame", function (object) {
 		//soundController.playMenuAudio();	
+		ball.position.y = 1;
+		ball.position.x = 0;	
 		linearVelocity.y = force * THREE.Math.randInt(-1, 1) * Math.sin(angle);
 		linearVelocity.x = force * THREE.Math.randInt(-1, 1) * Math.cos(angle);
 		if (linearVelocity.y == 0) {
@@ -70,7 +73,7 @@ function Ball(scene, eventBus) {
 				score2 += 1;
 				eventBus.post("ballLost");
 		document.getElementById("powerimage").src = "images/calm.gif";
-		$("#player2").text("PLAYER DOWN: "+score2);
+		$("#player2").text("Player Up: "+score2);
 		clearEffects();
 		
 			}
@@ -81,7 +84,7 @@ function Ball(scene, eventBus) {
 				score1 += 1;
 				eventBus.post("ballLost");
 		document.getElementById("powerimage").src = "images/calm.gif";
-		$("#player1").text("PLAYER UP: "+score1);
+		$("#player1").text("Player Down: "+score1);
         clearEffects();
 			}
 
@@ -89,7 +92,7 @@ function Ball(scene, eventBus) {
 	});
 
 	eventBus.subscribe("ballReset", function (object) {
-		ball.position.y = 0;
+		ball.position.y = 1;
 		ball.position.x = 0;
 		linearVelocity.y = 0;
 		linearVelocity.x = 0;
@@ -99,9 +102,10 @@ function Ball(scene, eventBus) {
 	});
 
 	this.update = function (time) {
-		ball.position.y += linearVelocity.y;
-		ball.position.x += linearVelocity.x;
-		linearVelocity.x = linearVelocity.x + g_x;
+		var t= ballClock.getDelta()*50
+		ball.position.y += t*linearVelocity.y;
+		ball.position.x += t*linearVelocity.x;
+		linearVelocity.x = linearVelocity.x + g_x*t;
 		//linearVelocity.y=linearVelocity.y+g_y;
 
 		if (isBlinking) {
@@ -200,7 +204,7 @@ function Ball(scene, eventBus) {
 					// console.log("slow")
 
 					count = 0;
-					duration = 3;
+					duration = 5;
 					force = force*0.5;
 					document.getElementById("powerimage").src= "images/slowball.gif";
 					$("#powername").text("SLOW BALL");

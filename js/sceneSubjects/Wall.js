@@ -6,13 +6,13 @@ function WallSide(scene,eventBus,side) {
   var x=0;
   var y=1;
   if (side=="left") {
-    width = 0.4;
-    height = 12.4;
-    x=-13.5;
+    width = 1;
+    height = 13;
+    x=-14;
   } else if (side=="right") {
-    width = 0.4;
-    height = 12.4;
-    x=13.5;
+    width = 1;
+    height = 13;
+    x=14;
   } else if (side=="top") {
     width = 25;
     height = 0.4;
