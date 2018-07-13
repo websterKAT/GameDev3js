@@ -27,7 +27,7 @@ function Ball(scene, eventBus) {
 	var geometry = new THREE.CircleBufferGeometry(0.5, 10);
 	var material = new THREE.MeshBasicMaterial({ color: 0xff4081 });
 	var powerupIcon = new THREE.Mesh(geometry, material);
-	var ballClock=new THREE.Clock();
+	var ballClock = new THREE.Clock();
 	ballClock.getDelta()
 	ball.position.set(0, 1, -20);
 	scene.add(ball);
@@ -51,7 +51,7 @@ function Ball(scene, eventBus) {
 	eventBus.subscribe("startGame", function (object) {
 		//soundController.playMenuAudio();	
 		ball.position.y = 1;
-		ball.position.x = 0;	
+		ball.position.x = 0;
 		linearVelocity.y = force * THREE.Math.randInt(-1, 1) * Math.sin(angle);
 		linearVelocity.x = force * THREE.Math.randInt(-1, 1) * Math.cos(angle);
 		if (linearVelocity.y == 0) {
@@ -60,6 +60,9 @@ function Ball(scene, eventBus) {
 		if (linearVelocity.x == 0) {
 			linearVelocity.x = 0.05;
 		}
+		document.getElementById("powerimage").src = "images/calm.gif";
+		$("#powername").text("calm mode");
+
 
 	});
 
@@ -72,10 +75,13 @@ function Ball(scene, eventBus) {
 				soundController.playBallWentOut();
 				score2 += 1;
 				eventBus.post("ballLost");
-		document.getElementById("powerimage").src = "images/calm.gif";
-		$("#player2").text("Player Up: "+score2);
-		clearEffects();
-		
+				$("#player2").text("Player Up: " + score2);
+				clearEffects();
+				$("#powername").text("press 'Enter' to rematch");
+				document.getElementById("powerimage").src = "images/nothing.gif";
+
+
+
 			}
 		}
 		if (handleType == 2) {
@@ -83,12 +89,17 @@ function Ball(scene, eventBus) {
 				soundController.playBallWentOut();
 				score1 += 1;
 				eventBus.post("ballLost");
-		document.getElementById("powerimage").src = "images/calm.gif";
-		$("#player1").text("Player Down: "+score1);
-        clearEffects();
+				$("#player1").text("Player Down: " + score1);
+				clearEffects();
+				$("#powername").text("press 'Enter' to rematch");
+				document.getElementById("powerimage").src = "images/nothing.gif";
+
+
 			}
 
 		}
+
+
 	});
 
 	eventBus.subscribe("ballReset", function (object) {
@@ -97,15 +108,15 @@ function Ball(scene, eventBus) {
 		linearVelocity.y = 0;
 		linearVelocity.x = 0;
 		scene.remove(powerupIcon);
-		document.getElementById("powerimage").src = "images/calm.gif";
 		clearEffects();
+
 	});
 
 	this.update = function (time) {
-		var t= ballClock.getDelta()*50
-		ball.position.y += t*linearVelocity.y;
-		ball.position.x += t*linearVelocity.x;
-		linearVelocity.x = linearVelocity.x + g_x*t;
+		var t = ballClock.getDelta() * 50
+		ball.position.y += t * linearVelocity.y;
+		ball.position.x += t * linearVelocity.x;
+		linearVelocity.x = linearVelocity.x + g_x * t;
 		//linearVelocity.y=linearVelocity.y+g_y;
 
 		if (isBlinking) {
@@ -194,27 +205,27 @@ function Ball(scene, eventBus) {
 
 					count = 0;
 					duration = 5;
-					force = force*2;
+					force = force * 2;
 					document.getElementById("powerimage").src = "images/fastball.gif";
 					$("#powername").text("FAST BALL");
 
 				}
 				else if (args[3] == 1) {
-				//	$("#currentpowerup").text("Ball Slow ")
+					//	$("#currentpowerup").text("Ball Slow ")
 					// console.log("slow")
 
 					count = 0;
 					duration = 5;
-					force = force*0.5;
-					document.getElementById("powerimage").src= "images/slowball.gif";
+					force = force * 0.5;
+					document.getElementById("powerimage").src = "images/slowball.gif";
 					$("#powername").text("SLOW BALL");
-					
+
 
 				}
 			}
 
 			else if (args[2] == 1) {
-				
+
 				// console.log("power regarding handle")
 				if (args[3] == 0) {
 					count = 0
@@ -225,27 +236,27 @@ function Ball(scene, eventBus) {
 					scale = 0.5;
 					document.getElementById("powerimage").src = "images/shorthandle.gif";
 					$("#powername").text("SHORT HANDLE");
-					
+
 				}
 				else if (args[3] == 1) {
-				
+
 					count = 0
 					duration = 5
 					eventBus.post("handleLong", function (handle) {
 						console.log("handleLong");
 					});
 					scale = 2;
-				//	$("#currentpowerup").text("Haddle Long")
+					//	$("#currentpowerup").text("Haddle Long")
 					document.getElementById("powerimage").src = "images/longhandle.gif";
 					$("#powername").text("LONG HANDLE");
-					
+
 
 				}
 
 			}
 
 			else if (args[2] == 2) {
-			
+
 				// console.log("environment")
 				if (args[3] == 0) {
 					console.log("wind")
@@ -280,7 +291,7 @@ function Ball(scene, eventBus) {
 
 		}
 		else if (type == "handle") {
-			
+
 			//scene.add(clock);	
 			if (isPoweredUp) {
 				count++
@@ -294,8 +305,8 @@ function Ball(scene, eventBus) {
 			const bounceArea = (handle.position.x - ball.position.x) / (handle.geometry.parameters.width * scale / 2)
 			const bounceAngle = bounceArea * maxBounceAngle
 			const extraForce = Math.abs(bounceArea) * maxSpeedChange
-			linearVelocity.y = (force) * Math.exp(extraForce) * Math.cos(bounceAngle);
-			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle);
+			linearVelocity.y = (force) * Math.exp(extraForce) * Math.cos(bounceAngle)+0.01;
+			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle)-0.01;
 		}
 
 		else if (type == "handle2") {
@@ -314,13 +325,14 @@ function Ball(scene, eventBus) {
 			const bounceArea = (handle.position.x - ball.position.x) / (handle.geometry.parameters.width * scale / 2)
 			const bounceAngle = bounceArea * maxBounceAngle
 			const extraForce = Math.abs(bounceArea) * maxSpeedChange
-			linearVelocity.y = -(force) * Math.exp(extraForce) * Math.cos(bounceAngle);
-			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle);
+			linearVelocity.y = -(force) * Math.exp(extraForce) * Math.cos(bounceAngle)-0.01;
+			linearVelocity.x = -(force) * Math.exp(extraForce) * Math.sin(bounceAngle)-0.01;
 		}
 
 		else {
 			linearVelocity.y *= -1;
 			linearVelocity.x *= 1;
+
 		}
 
 	}
